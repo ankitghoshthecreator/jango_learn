@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gilded Plate | Fine Dining & Reservations{% endblock %}</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Local Premium Stylesheet -->
+    <link rel="stylesheet" href="{% static 'firstapp/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="logo">
+                <span>Gilded</span>Plate
+            </a>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}">Home & Menu</a></li>
+                <li><a href="/admin/" class="btn-admin" target="_blank">Admin Panel</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gilded Plate Restaurant. All rights reserved. Built with Django.</p>
+    </footer>
+</body>
+</html>

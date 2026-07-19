@@ -1,0 +1,84 @@
+{% extends 'firstapp/base.html' %}
+
+{% block title %}Gilded Plate | Gastronomical Delights & Table Booking{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Experience Culinary Artistry</h1>
+    <p>Indulge in an exquisite, modern dining experience crafted by world-class chefs. Book your exclusive table tonight.</p>
+</section>
+
+<div class="main-content">
+    <!-- Menu Section -->
+    <div class="menu-section">
+        <h2 class="section-title">Tonight's Menu</h2>
+        
+        {% if menu_items %}
+            <div class="menu-grid">
+                {% for item in menu_items %}
+                    <div class="menu-card">
+                        <div class="menu-header">
+                            <h3 class="menu-name">{{ item.name }}</h3>
+                            <span class="menu-price">${{ item.price }}</span>
+                        </div>
+                        <p>Exquisite selection prepared with premium, locally sourced seasonal ingredients.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>No culinary selections listed for tonight yet.</p>
+                <form action="{% url 'seed_menu' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-seed">Seed Sample Menu</button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Booking Form Section -->
+    <div class="booking-section">
+        <div class="reservation-card">
+            <h2 class="section-title">Reserve a Table</h2>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-error{% endif %}">
+                        {% if message.tags == 'success' %}✓{% else %}✗{% endif %} {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST" action="{% url 'home' %}">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="{{ form.firstName.id_for_label }}">First Name</label>
+                    {{ form.firstName }}
+                    {% if form.firstName.errors %}
+                        <small style="color: #f87171;">{{ form.firstName.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.lastName.id_for_label }}">Last Name</label>
+                    {{ form.lastName }}
+                    {% if form.lastName.errors %}
+                        <small style="color: #f87171;">{{ form.lastName.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.guestcnt.id_for_label }}">Number of Guests</label>
+                    {{ form.guestcnt }}
+                    {% if form.guestcnt.errors %}
+                        <small style="color: #f87171;">{{ form.guestcnt.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn-submit">Confirm Reservation</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
